@@ -126,12 +126,12 @@ public class Level implements Iterable<Level.Row> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
-        for(Row r : this) {
-            for(Tile t : r) {
+        for(int i = 0; i < map.length; ++i) {
+            for(Tile t : map[i]) {
                 switch(t) {
                     case BRICK_WALL:  sb.append('X'); break;
                     case FAKE_FLOOR:  sb.append('F'); break;
-                    case GOAL_LADDER: sb.append('\\'); break;
+                    case GOAL_LADDER: sb.append('I'); break;
                     case GOLD_PILE:   sb.append('G'); break;
                     case LADDER:      sb.append('H'); break;
                     case OPEN_SPACE:  sb.append(' '); break;
@@ -141,6 +141,13 @@ public class Level implements Iterable<Level.Row> {
             }
             sb.append('\n');
         }
+        
+        sb.append(enemies.size()).append(" enemies(s)\n");
+        for(Position p : enemies) {
+            sb.append(p.getX()).append(", ").append(p.getY()).append('\n');
+        }
+        
+        
         
         return sb.toString();
     }

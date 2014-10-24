@@ -52,7 +52,7 @@ public class RLECodec implements RowCodec {
         
         Level.Tile fillTile = Level.Tile.fromByte(stream.pullThreeBits());
         
-        for(short i = currentPos; i < Level.LEVEL_SIZE; i++) {
+        for(short i = currentPos; i < Level.ROW_LENGTH; i++) {
             theRow.setTile(i, fillTile);
         }
         

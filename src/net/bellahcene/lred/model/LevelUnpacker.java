@@ -24,6 +24,7 @@ import net.bellahcene.lred.model.codec.Palette2Codec;
 import net.bellahcene.lred.model.codec.Palette4Codec;
 import net.bellahcene.lred.model.codec.RLECodec;
 import net.bellahcene.lred.model.codec.UncompressedCodec;
+import net.bellahcene.lred.util.Position;
 
 /**
  *
@@ -41,33 +42,50 @@ public class LevelUnpacker {
     public List<Level> unpackLevels(LevelStream stream) {
         ArrayList<Level> levels = new ArrayList<>();
         
-        Level aLevel = new Level();
-        
-        for(int i = 0; i < Level.LEVEL_SIZE; i++) {
-            byte rowType = stream.pullTwoBits();
-            switch(rowType) {
-                case 0: 
-                    aLevel.setRow(i, rleCodec.unpackRow(stream));
-                    break;
-                case 1:
-                    aLevel.setRow(i, palette2Codec.unpackRow(stream));
-                    break;
-                case 2:
-                    aLevel.setRow(i, emptyRowExceptCodec.unpackRow(stream));
-                    break;
-                case 3:
-                    if(stream.pullBit()){
-                        aLevel.setRow(i, uncompressedCodec.unpackRow(stream));
-                    } else {
-                        aLevel.setRow(i, palette4Codec.unpackRow(stream));
-                    }
-                    break;
+        for(int j = 0; j < 50; j++) {
+            System.out.println("Level " + j);
+            byte enemyCount;
+            Level aLevel = new Level();
+
+            for(int i = 0; i < Level.LEVEL_SIZE; i++) {
+                byte rowType = stream.pullTwoBits();
+                switch(rowType) {
+                    case 0: 
+                        aLevel.setRow(i, rleCodec.unpackRow(stream));
+                        break;
+                    case 1:
+                        aLevel.setRow(i, palette2Codec.unpackRow(stream));
+                        break;
+                    case 2:
+                        aLevel.setRow(i, emptyRowExceptCodec.unpackRow(stream));
+                        break;
+                    case 3:
+                        if(stream.pullBit()){
+                            aLevel.setRow(i, uncompressedCodec.unpackRow(stream));
+                        } else {
+                            aLevel.setRow(i, palette4Codec.unpackRow(stream));
+                        }
+                        break;
+                }
             }
+
+            enemyCount = stream.pullThreeBits();
+
+            for(int i = 0; i < enemyCount; ++i) {
+                Position enemyPos = new Position();
+                enemyPos.setX( stream.pullFiveBits());
+                enemyPos.setY( stream.pullFiveBits());
+                aLevel.addEnemy(enemyPos);
+            }
+
+            Position startPos = new Position();
+            startPos.setX(stream.pullFiveBits());
+            startPos.setY(stream.pullFiveBits());
+            aLevel.setStartPosition(startPos);
+
+            System.out.println(aLevel);
+            levels.add(aLevel);
         }
-        
-        System.out.println(aLevel);
-        levels.add(aLevel);
-        
         return levels;
     }
     

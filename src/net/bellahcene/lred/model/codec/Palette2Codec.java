@@ -27,7 +27,6 @@ import net.bellahcene.lred.model.RowCodec;
  */
 public class Palette2Codec implements RowCodec {
 
-
     @Override
     public Level.Row unpackRow(LevelStream stream) {
         Level.Row theRow = new Level.Row();

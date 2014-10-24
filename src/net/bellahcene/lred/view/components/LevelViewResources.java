@@ -15,34 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package net.bellahcene.lred.model.codec;
+package net.bellahcene.lred.view.components;
 
-import net.bellahcene.lred.model.Level;
-import net.bellahcene.lred.model.LevelStream;
-import net.bellahcene.lred.model.RowCodec;
+import java.awt.Dimension;
+import java.awt.Image;
 
 /**
  *
  * @author valerian
  */
-public class UncompressedCodec implements RowCodec{
-
+public interface LevelViewResources {
     
-    @Override
-    public Level.Row unpackRow(LevelStream stream) {
-        Level.Row theRow = new Level.Row();
-        
-        for(short i = 0; i < Level.ROW_LENGTH; i++) {
-            Level.Tile tile = Level.Tile.fromByte(stream.pullThreeBits());
-            theRow.setTile(i, tile);
-        }
-        
-        return theRow;
-    }
-
-    @Override
-    public LevelStream packRow(Level.Row row) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    Dimension dimension();
     
+    Image openSpace();
+    Image brickWall();
+    Image solidWall();
+    Image ladder();
+    Image rope();
+    Image fakeFloor();
+    Image goalLadder();
+    Image goldPile();
+    Image enemy();
+    Image player();
 }
