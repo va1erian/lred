@@ -21,14 +21,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import net.bellahcene.lred.model.Level;
 import net.bellahcene.lred.model.LevelStream;
 import net.bellahcene.lred.model.LevelUnpacker;
-import net.bellahcene.lred.view.EditorPanel;
+import net.bellahcene.lred.view.EditorFrame;
 
 /**
  *
@@ -41,15 +40,13 @@ public class SwingMain {
             System.exit(2);
         }
         
-            try {
-            // Set cross-platform Java L&F (also called "Metal")
-                UIManager.setLookAndFeel(
-              UIManager.getSystemLookAndFeelClassName());
-            } 
-            catch (ClassNotFoundException | InstantiationException 
-                    | IllegalAccessException | UnsupportedLookAndFeelException e) {
-                System.err.println("Failed to open look and feel.");
-            }
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (ClassNotFoundException | InstantiationException 
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            System.err.println("Failed to open look and feel.");
+        }
 
         
         try(FileInputStream fis = new FileInputStream(args[1])) {
@@ -71,14 +68,9 @@ public class SwingMain {
     
     
     static void openView(List<Level> levels) {
-        JFrame frm = new JFrame("LRed");
+        EditorFrame frm = new EditorFrame();
+        frm.setLevels(levels);
         frm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
-        EditorPanel editorPanel = new EditorPanel();
-        editorPanel.setLevels(levels);
-        
-        frm.setContentPane(editorPanel);
-        frm.pack();
         frm.setVisible(true);
     }
 }

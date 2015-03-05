@@ -28,7 +28,7 @@ import net.bellahcene.lred.view.components.LevelViewResources;
  *
  * @author valerian
  */
-public class EditorPanel extends javax.swing.JPanel {
+public class EditorFrame extends javax.swing.JFrame {
 
     private final LevelView view;
     private final LevelViewResources res;
@@ -39,7 +39,7 @@ public class EditorPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditorPanel
      */
-    public EditorPanel() {
+    public EditorFrame() {
         initComponents();
         
         res = new DefaultResources(new Dimension(24,24));
@@ -80,12 +80,13 @@ public class EditorPanel extends javax.swing.JPanel {
         toolbar = new javax.swing.JToolBar();
         prevTbBtn = new javax.swing.JButton();
         nextTbBtn = new javax.swing.JButton();
-
-        setLayout(new java.awt.BorderLayout());
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        quitMenuItem = new javax.swing.JMenuItem();
 
         viewScrollPanel.setMinimumSize(new java.awt.Dimension(200, 100));
         viewScrollPanel.setName("viewScrollPanel"); // NOI18N
-        add(viewScrollPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(viewScrollPanel, java.awt.BorderLayout.CENTER);
 
         toolbar.setRollover(true);
 
@@ -111,7 +112,21 @@ public class EditorPanel extends javax.swing.JPanel {
         });
         toolbar.add(nextTbBtn);
 
-        add(toolbar, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(toolbar, java.awt.BorderLayout.PAGE_START);
+
+        fileMenu.setText("File");
+
+        quitMenuItem.setText("jMenuItem1");
+        quitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(quitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
 
     private void prevTbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevTbBtnActionPerformed
@@ -122,10 +137,17 @@ public class EditorPanel extends javax.swing.JPanel {
         gotoNextLevel();
     }//GEN-LAST:event_nextTbBtnActionPerformed
 
+    private void quitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quitMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton nextTbBtn;
     private javax.swing.JButton prevTbBtn;
+    private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JToolBar toolbar;
     private javax.swing.JScrollPane viewScrollPanel;
     // End of variables declaration//GEN-END:variables
